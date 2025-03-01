@@ -9,7 +9,6 @@ Future<bool> sendSms(String contact) async {
     launchUrl(launchUri, mode: LaunchMode.externalNonBrowserApplication);
     return true;
   } else {
-    // throw launchFailed;
     return false;
   }
 }
@@ -22,7 +21,6 @@ Future<bool> makePhoneCall(String contact) async {
     launchUrl(launchUri, mode: LaunchMode.externalNonBrowserApplication);
     return true;
   } else {
-    // throw launchFailed;
     return false;
   }
 }
@@ -37,7 +35,6 @@ Future<bool> sendWhatsapp(String contact) async {
     launchUrl(launchUri, mode: LaunchMode.externalNonBrowserApplication);
     return true;
   } else {
-    // throw launchFailed;
     return false;
   }
 }
