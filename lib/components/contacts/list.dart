@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:identity/model/user.dart';
 import 'package:disclosure/disclosure.dart';
 import 'package:identity/constants/text.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:identity/components/snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:identity/constants/transformer.dart';
+import 'package:identity/services/url_launcher.dart';
 
 class ContactList extends StatefulWidget {
   const ContactList({super.key, required this.users});
@@ -18,55 +18,9 @@ class ContactList extends StatefulWidget {
 }
 
 class ContactListState extends State<ContactList> {
- 
-
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<void> _sendSms(String contact) async {
-    var mobile = mobileTransformer(contact);
-    final Uri launchUri = Uri(scheme: 'sms', path: "+$mobile");
-
-    if (await canLaunchUrl(launchUri)) {
-      launchUrl(launchUri, mode: LaunchMode.externalNonBrowserApplication);
-    } else {
-      // throw launchFailed;
-      if (mounted) {
-        snackBar(context, message: launchFailed);
-      }
-    }
-  }
-
-  Future<void> _makePhoneCall(String contact) async {
-    var mobile = mobileTransformer(contact);
-    final Uri launchUri = Uri(scheme: 'tel', path: "+$mobile");
-
-    if (await canLaunchUrl(launchUri)) {
-      launchUrl(launchUri, mode: LaunchMode.externalNonBrowserApplication);
-    } else {
-      // throw launchFailed;
-      if (mounted) {
-        snackBar(context, message: launchFailed);
-      }
-    }
-  }
-
-  Future<void> _sendWhatsapp(String contact) async {
-    var mobile = mobileTransformer(contact);
-    final Uri launchUri = Uri.parse(
-      Uri.encodeFull("https://wa.me/$mobile?text=Hi, I need some help."),
-    );
-
-    if (await canLaunchUrl(launchUri)) {
-      launchUrl(launchUri, mode: LaunchMode.externalNonBrowserApplication);
-    } else {
-      // throw launchFailed;
-      if (mounted) {
-        snackBar(context, message: launchFailed);
-      }
-    }
   }
 
   @override
@@ -167,8 +121,11 @@ class ContactListState extends State<ContactList> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        onPressed: () {
-                          _sendSms(user.mobile);
+                        onPressed: () async {
+                          var result = await sendSms(user.mobile);
+                          if (context.mounted && result == false) {
+                            snackBar(context, message: launchFailed);
+                          }
                         },
                         icon: FIcon(
                           FAssets.icons.messageSquare,
@@ -186,8 +143,11 @@ class ContactListState extends State<ContactList> {
                   Column(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          _makePhoneCall(user.mobile);
+                        onPressed: () async {
+                          var result = await makePhoneCall(user.mobile);
+                          if (context.mounted && result == false) {
+                            snackBar(context, message: launchFailed);
+                          }
                         },
                         icon: FIcon(
                           FAssets.icons.phoneCall,
@@ -205,8 +165,11 @@ class ContactListState extends State<ContactList> {
                   Column(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          _sendWhatsapp(user.mobile);
+                        onPressed: () async {
+                          var result = await sendWhatsapp(user.mobile);
+                          if (context.mounted && result == false) {
+                            snackBar(context, message: launchFailed);
+                          }
                         },
                         icon: FIcon(
                           FAssets.icons.messageCircleReply,
