@@ -1,17 +1,19 @@
+import 'package:forui/forui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:forui/forui.dart';
-import 'package:identity/components/border_animate.dart';
+import 'package:identity/constants/text.dart';
 import 'package:identity/services/getit.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:identity/components/snack_bar.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
+import 'package:identity/components/border_animate.dart';
 
-import 'package:identity/components/modal_sheet.dart';
-import 'package:identity/constants/styles.dart';
-import 'package:identity/constants/theme.dart';
-import 'package:identity/constants/transformer.dart';
 import 'package:identity/model/user.dart';
+import 'package:identity/constants/theme.dart';
+import 'package:identity/constants/styles.dart';
 import 'package:identity/services/dio_client.dart';
+import 'package:identity/constants/transformer.dart';
+import 'package:identity/components/modal_sheet.dart';
 import 'package:identity/utils/theme_transformer.dart';
 
 class Search extends StatefulWidget {
@@ -27,8 +29,8 @@ class _SearchState extends State<Search> {
   final TextEditingController _controller = TextEditingController();
 
   String? mobileField;
+  bool isLoading = false;
   bool _submitted = false;
-  bool loading = false;
 
   var chipValue = 0;
   final saveContact = getIt.get<SaveContact>();
@@ -46,18 +48,22 @@ class _SearchState extends State<Search> {
 
   void submit() {
     if (_formKey.currentState!.validate()) {
-      setState(() {
-        _submitted = true;
-        loading = true;
-      });
+      setSetState();
 
       checkAvailability();
     }
   }
 
+  void setSetState() {
+    setState(() {
+      _submitted = true;
+      isLoading = true;
+    });
+  }
+
   void updateSetState() {
     setState(() {
-      loading = false;
+      isLoading = false;
       _submitted = false;
     });
   }
@@ -72,9 +78,7 @@ class _SearchState extends State<Search> {
 
     updateSetState();
     _controller.text = '';
-    if (mounted) {
-      bottomsheet(context, user);
-    }
+    if (mounted) bottomsheet(context, user);
   }
 
   Future getName() async {
@@ -108,7 +112,7 @@ class _SearchState extends State<Search> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close'),
+                  child: Text(close),
                 ),
               ],
             ),
@@ -117,12 +121,15 @@ class _SearchState extends State<Search> {
   }
 
   void saveFoundContact(result) {
-    if (saveContact.state.value == false) return;
+    if (saveContact.state.value == false) {
+      if (context.mounted) {
+        snackBar(context, message: noContactSaved);
+      }
+      return;
+    }
 
     var data = UserModel().writeUser(result);
-    if (mounted) {
-      bottomsheet(context, data);
-    }
+    if (mounted) bottomsheet(context, data);
   }
 
   @override
@@ -140,7 +147,7 @@ class _SearchState extends State<Search> {
         child: Column(
           children: [
             ListTile(
-              title: const Text('Save contact?'),
+              title: const Text(saveContacts),
               trailing: Watch(
                 (context) => Switch(
                   value: saveContact.state.value,
@@ -152,7 +159,7 @@ class _SearchState extends State<Search> {
             ),
             ListTile(
               onTap: WoltModalSheet.of(modalSheetContext).showNext,
-              title: Text('Appearance'),
+              title: Text(appearance),
             ),
 
             SizedBox(height: 20),
@@ -239,7 +246,7 @@ class _SearchState extends State<Search> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Search"),
+        title: Text(search),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -282,7 +289,7 @@ class _SearchState extends State<Search> {
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.search,
                       decoration: InputDecoration(
-                        hintText: "0244444444",
+                        hintText: dummyMobile,
                         fillColor: Theme.of(context).colorScheme.onTertiary,
                         filled: true,
                         suffixIcon: IconButton(
@@ -324,11 +331,11 @@ class _SearchState extends State<Search> {
                               : AutovalidateMode.disabled,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return "can't be blank";
+                          return blankEntry;
                         }
 
                         if (value.length < 10) {
-                          return "Invalid entry";
+                          return invalidEntry;
                         }
 
                         mobileField = value;
@@ -339,20 +346,26 @@ class _SearchState extends State<Search> {
                         submit();
                       },
                     ),
-                    FilledButton.icon(
+                    FilledButton(
                       style: ButtonStyle(
                         minimumSize: WidgetStateProperty.all(
                           Size(double.infinity, 50.0),
                         ),
                       ),
-                      label: Text(
-                        "Search",
-                        style: TextStyle(
-                          fontSize:
-                              Theme.of(context).textTheme.titleMedium?.fontSize,
-                        ),
-                      ),
-                      icon: Icon(Icons.search),
+                      child:
+                          isLoading
+                              ? CircularProgressIndicator(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              )
+                              : Text(
+                                search,
+                                style: TextStyle(
+                                  fontSize:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.titleMedium?.fontSize,
+                                ),
+                              ),
                       onPressed: () => submit(),
                     ),
                     // BorderAnimate(
