@@ -1,1 +1,13 @@
+const text = "Text";
+const call = "Call";
+const close = "Save";
+const search = "Search";
+const contacts = "Contacts";
+const whatsapp = "Whatsapp";
+const appearance = "Appearance";
+const dummyMobile = "0244444444";
+const blankEntry = "can't be blank";
+const saveContacts = "Save contact?";
+const invalidEntry = "Invalid entry";
 const launchFailed = 'Launch failed';
+const noContactSaved = "Contact save disabled";
