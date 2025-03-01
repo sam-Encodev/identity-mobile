@@ -32,7 +32,7 @@ void bottomsheet(BuildContext context, data) {
               ListTile(title: Text(name)),
               ListTile(
                 leading: FIcon(FAssets.icons.messageSquare, color: Colors.grey),
-                title: const Text('Text'),
+                title: const Text(text),
                 onTap: () async {
                   var result = await sendSms(mobile);
                   if (context.mounted && result == false) {
@@ -42,9 +42,9 @@ void bottomsheet(BuildContext context, data) {
               ),
               ListTile(
                 leading: FIcon(FAssets.icons.phoneCall, color: Colors.grey),
-                title: const Text('Call'),
+                title: const Text(call),
                 onTap: () async {
-                  var result = await sendSms(mobile);
+                  var result = await makePhoneCall(mobile);
                   if (context.mounted && result == false) {
                     snackBar(context, message: launchFailed);
                   }
@@ -55,9 +55,9 @@ void bottomsheet(BuildContext context, data) {
                   FAssets.icons.messageCircleReply,
                   color: Colors.grey,
                 ),
-                title: const Text('Whatsapp'),
+                title: const Text(whatsapp),
                 onTap: () async {
-                  var result = await sendSms(mobile);
+                  var result = await sendWhatsapp(mobile);
                   if (context.mounted && result == false) {
                     snackBar(context, message: launchFailed);
                   }
