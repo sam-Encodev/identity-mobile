@@ -1,0 +1,1 @@
+const launchFailed = 'Launch failed';

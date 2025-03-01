@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+trash
+lib/services/dio_client.dart
+lib/constants/transformer.dart
+lib/constants/data.dart
