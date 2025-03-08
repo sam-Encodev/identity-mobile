@@ -9,13 +9,14 @@ class UserModel {
   UserModel() {
     var config = Configuration.local(
       [User.schema],
-      // schemaVersion: 3,
-      // // delete table
-      // migrationCallback: (migration, oldSchemaVersion) {
-      //   migration.deleteType('User');
-      // },
+      schemaVersion: 0,
+      // delete table
+      migrationCallback: (migration, oldSchemaVersion) {
+        migration.deleteType('User');
+      },
     );
     realm = Realm(config);
+    // realm.close();
   }
 
   findUser(mobile) {
@@ -29,12 +30,12 @@ class UserModel {
 
   writeUser(info) {
     var providerName = getbankCode(info["account_number"]);
-    // var initials = grabInitials(info["account_name"]);
+    var initials = grabInitials(info["account_name"]);
 
     final user = User(
       info["account_number"],
       info["account_name"],
-      // initials,
+      initials,
       providerName,
       info["bank_id"],
     );
