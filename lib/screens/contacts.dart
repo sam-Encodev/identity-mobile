@@ -2,6 +2,7 @@ import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
 import 'package:identity/model/user.dart';
 import 'package:identity/schema/user.dart';
+import 'package:identity/model/theming.dart';
 import 'package:identity/constants/text.dart';
 import 'package:identity/components/empty_screen.dart';
 import 'package:identity/components/contacts/list.dart';
@@ -11,6 +12,8 @@ class Contacts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // UserModel().clearDB();
+    // ThemingModel().clearDB();
     RealmResults<User> users = UserModel().getUsers();
 
     return Scaffold(
