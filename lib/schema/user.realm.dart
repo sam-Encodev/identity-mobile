@@ -11,11 +11,13 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
   User(
     String mobile,
     String name,
+    String initials,
     String providerName,
     int providerID,
   ) {
     RealmObjectBase.set(this, 'mobile', mobile);
     RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'initials', initials);
     RealmObjectBase.set(this, 'providerName', providerName);
     RealmObjectBase.set(this, 'providerID', providerID);
   }
@@ -31,6 +33,12 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
   set name(String value) => RealmObjectBase.set(this, 'name', value);
+
+  @override
+  String get initials =>
+      RealmObjectBase.get<String>(this, 'initials') as String;
+  @override
+  set initials(String value) => RealmObjectBase.set(this, 'initials', value);
 
   @override
   String get providerName =>
@@ -59,6 +67,7 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
     return <String, dynamic>{
       'mobile': mobile.toEJson(),
       'name': name.toEJson(),
+      'initials': initials.toEJson(),
       'providerName': providerName.toEJson(),
       'providerID': providerID.toEJson(),
     };
@@ -71,12 +80,14 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
       {
         'mobile': EJsonValue mobile,
         'name': EJsonValue name,
+        'initials': EJsonValue initials,
         'providerName': EJsonValue providerName,
         'providerID': EJsonValue providerID,
       } =>
         User(
           fromEJson(mobile),
           fromEJson(name),
+          fromEJson(initials),
           fromEJson(providerName),
           fromEJson(providerID),
         ),
@@ -90,6 +101,7 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
     return const SchemaObject(ObjectType.realmObject, User, 'User', [
       SchemaProperty('mobile', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
+      SchemaProperty('initials', RealmPropertyType.string),
       SchemaProperty('providerName', RealmPropertyType.string),
       SchemaProperty('providerID', RealmPropertyType.int),
     ]);
