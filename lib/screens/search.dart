@@ -245,6 +245,7 @@ class _SearchState extends State<Search> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: Text(search),
         actions: [
           Padding(
