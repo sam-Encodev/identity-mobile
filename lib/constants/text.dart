@@ -16,3 +16,4 @@ const tel = "tel";
 const help = "May I know who you are.";
 const whatsappUrl = "https://wa.me";
 const whatsappMessage = "Hi, May I know who you are.";
+const noData = "No data";

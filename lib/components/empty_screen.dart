@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:identity/constants/text.dart';
 
 class EmptyScreen extends StatelessWidget {
   const EmptyScreen({super.key});
@@ -8,7 +9,7 @@ class EmptyScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [Text("No data")],
+      children: [Text(noData)],
     );
   }
 }

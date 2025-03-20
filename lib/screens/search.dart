@@ -1,7 +1,6 @@
 import 'package:forui/forui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:identity/model/theming.dart';
 import 'package:identity/constants/text.dart';
 import 'package:identity/services/getit.dart';
 import 'package:signals/signals_flutter.dart';
@@ -231,7 +230,7 @@ class _SearchState extends State<Search> {
                               themer.state.value = themeTransformer(
                                 number: chipValue,
                               );
-                              ThemingModel().updateState(chipValue);
+                         
                             },
                           ),
                         ),
