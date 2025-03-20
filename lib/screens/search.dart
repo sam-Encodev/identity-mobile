@@ -281,7 +281,7 @@ class _SearchState extends State<Search> {
                   spacing: 10,
                   children: [
                     TextFormField(
-                      autofocus: true,
+                      autofocus: false,
                       maxLines: 1,
                       maxLength: 10,
                       controller: _controller,
