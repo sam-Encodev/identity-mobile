@@ -5,7 +5,6 @@ import 'package:identity/constants/text.dart';
 import 'package:identity/services/getit.dart';
 import 'package:signals/signals_flutter.dart';
 import 'package:identity/services/shared_pref.dart';
-import 'package:identity/components/snack_bar.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 import 'package:identity/components/border_animate.dart';
 
@@ -34,8 +33,6 @@ class _SearchState extends State<Search> {
   bool _submitted = false;
 
   var chipValue = 0;
-  final pref = SharedPref.get();
-  final saveContact = getIt.get<SaveContact>();
 
   @override
   void initState() {
@@ -79,7 +76,7 @@ class _SearchState extends State<Search> {
 
     updateSetState();
     _controller.text = '';
-    if (mounted) bottomsheet(context, user);
+    if (mounted) bottomsheet(context, user, dbCall: true);
   }
 
   Future getName() async {
@@ -93,8 +90,18 @@ class _SearchState extends State<Search> {
     }
 
     updateSetState();
-    saveFoundContact(results[data]);
+    writetoDB(results[data]);
     _controller.text = '';
+  }
+
+  void writetoDB(data) {
+    var saveContact = getIt.get<SaveContact>();
+    if (saveContact.state.value == false) {
+      if (mounted) bottomsheet(context, data, dbCall: false);
+    }
+
+    var res = UserModel().writeUser(data);
+    if (mounted) bottomsheet(context, res, dbCall: false);
   }
 
   void showFailedResponse(response) {
@@ -121,21 +128,12 @@ class _SearchState extends State<Search> {
     }
   }
 
-  void saveFoundContact(result) {
-    if (saveContact.state.value == false) {
-      if (context.mounted) {
-        snackBar(context, message: noContactSaved);
-      }
-      return;
-    }
-
-    var data = UserModel().writeUser(result);
-    if (mounted) bottomsheet(context, data);
-  }
-
   @override
   Widget build(BuildContext context) {
     final themer = getIt.get<Themer>();
+    var saveContact = getIt.get<SaveContact>();
+    var pref = SharedPref.get();
+    // print({"pref": pref});
     saveContact.state.value = pref;
 
     SliverWoltModalSheetPage page1(BuildContext modalSheetContext) {
