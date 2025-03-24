@@ -12,7 +12,6 @@ class Contacts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // UserModel().clearDB();
-    // ThemingModel().clearDB();
     RealmResults<User> users = UserModel().getUsers();
 
     return Scaffold(
@@ -20,33 +19,34 @@ class Contacts extends StatelessWidget {
         centerTitle: false,
         title: Text(contacts),
         actions: [
-          SearchAnchor(
-            builder: (BuildContext context, SearchController controller) {
-              return IconButton(
-                onPressed: controller.openView,
-                icon: const Icon(Icons.search),
-              );
-            },
-            suggestionsBuilder: (
-              BuildContext context,
-              SearchController controller,
-            ) {
-              return users
-                  .where((User user) {
-                    final String name = user.name.toLowerCase();
-                    final String mobile = user.mobile.toLowerCase();
-                    final String input = controller.text.toLowerCase();
+          if (users.isNotEmpty)
+            SearchAnchor(
+              builder: (BuildContext context, SearchController controller) {
+                return IconButton(
+                  onPressed: controller.openView,
+                  icon: const Icon(Icons.search),
+                );
+              },
+              suggestionsBuilder: (
+                BuildContext context,
+                SearchController controller,
+              ) {
+                return users
+                    .where((User user) {
+                      final String name = user.name.toLowerCase();
+                      final String mobile = user.mobile.toLowerCase();
+                      final String input = controller.text.toLowerCase();
 
-                    return name.contains(input) || mobile.contains(input);
-                  })
-                  .map((User user) {
-                    return ListTile(
-                      title: Text(user.name),
-                      onTap: () => controller.closeView(user.name),
-                    );
-                  });
-            },
-          ),
+                      return name.contains(input) || mobile.contains(input);
+                    })
+                    .map((User user) {
+                      return ListTile(
+                        title: Text(user.name),
+                        onTap: () => controller.closeView(user.name),
+                      );
+                    });
+              },
+            ),
         ],
       ),
       body: StreamBuilder<Object>(
