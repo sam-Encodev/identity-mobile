@@ -2,6 +2,7 @@ import 'package:realm/realm.dart';
 import 'package:identity/schema/user.dart';
 import 'package:identity/constants/data.dart';
 import 'package:identity/constants/transformer.dart';
+import 'package:identity/constants/text.dart';
 
 class UserModel {
   late Realm realm;
@@ -12,7 +13,7 @@ class UserModel {
       schemaVersion: 0,
       // delete table
       migrationCallback: (migration, oldSchemaVersion) {
-        migration.deleteType('User');
+        migration.deleteType(user);
       },
     );
     realm = Realm(config);
@@ -20,24 +21,25 @@ class UserModel {
   }
 
   findUser(mobile) {
-    try {
-      var user = realm.query<User>("mobile == '$mobile'").first;
-      return (user: user, message: true);
-    } catch (e) {
-      return (user: User, message: false);
+    var user = realm.query<User>("mobile == '$mobile'");
+
+    if (user.isNotEmpty) {
+      return (user: user.first, message: true);
     }
+
+    return (user: User, message: false);
   }
 
   writeUser(info) {
-    var providerName = getbankCode(info["account_number"]);
-    var initials = grabInitials(info["account_name"]);
+    var providerName = getbankCode(info[accountNumber]);
+    var initials = grabInitials(info[accountName]);
 
     final user = User(
-      info["account_number"],
-      info["account_name"],
+      info[accountNumber],
+      info[accountName],
       initials,
       providerName,
-      info["bank_id"],
+      info[bankId],
     );
 
     realm.write(() {
