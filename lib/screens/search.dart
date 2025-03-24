@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:identity/constants/text.dart';
 import 'package:identity/services/getit.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:identity/services/shared_pref.dart';
 import 'package:identity/components/snack_bar.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 import 'package:identity/components/border_animate.dart';
@@ -33,6 +34,7 @@ class _SearchState extends State<Search> {
   bool _submitted = false;
 
   var chipValue = 0;
+  final pref = SharedPref.get();
   final saveContact = getIt.get<SaveContact>();
 
   @override
@@ -84,14 +86,14 @@ class _SearchState extends State<Search> {
     var code = getbankCode(mobileField);
     var results = await _client.getID(mobileField, code);
 
-    if (results['status'] == false) {
+    if (results[status] == false) {
       updateSetState();
-      showFailedResponse(results['message']);
+      showFailedResponse(results[message]);
       return;
     }
 
     updateSetState();
-    saveFoundContact(results["data"]);
+    saveFoundContact(results[data]);
     _controller.text = '';
   }
 
@@ -134,6 +136,8 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     final themer = getIt.get<Themer>();
+    saveContact.state.value = pref;
+
     SliverWoltModalSheetPage page1(BuildContext modalSheetContext) {
       return WoltModalSheetPage(
         hasSabGradient: false,
@@ -151,6 +155,7 @@ class _SearchState extends State<Search> {
                   value: saveContact.state.value,
                   onChanged: (value) {
                     saveContact.state.value = value;
+                    SharedPref.setValue(value);
                   },
                 ),
               ),
@@ -230,7 +235,6 @@ class _SearchState extends State<Search> {
                               themer.state.value = themeTransformer(
                                 number: chipValue,
                               );
-                         
                             },
                           ),
                         ),
@@ -281,7 +285,7 @@ class _SearchState extends State<Search> {
                   spacing: 10,
                   children: [
                     TextFormField(
-                      autofocus: false,
+                      autofocus: true,
                       maxLines: 1,
                       maxLength: 10,
                       controller: _controller,
@@ -305,20 +309,26 @@ class _SearchState extends State<Search> {
                         ),
                         border: InputBorder.none,
                         focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(
+                            inputBorderRadius,
+                          ),
                           borderSide: BorderSide(
                             color: Theme.of(context).colorScheme.error,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(
+                            inputBorderRadius,
+                          ),
                           borderSide: BorderSide(
                             color:
                                 Theme.of(context).colorScheme.primaryFixedDim,
                           ),
                         ),
                         errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(
+                            inputBorderRadius,
+                          ),
                           borderSide: BorderSide(
                             color: Theme.of(context).colorScheme.error,
                           ),
@@ -368,20 +378,6 @@ class _SearchState extends State<Search> {
                               ),
                       onPressed: () => submit(),
                     ),
-                    // BorderAnimate(
-                    //   showBlur: false,
-                    //   colors: [
-                    //     Colors.lightBlueAccent,
-                    //     Colors.lightBlueAccent,
-                    //     const Color.fromARGB(255, 138, 213, 248),
-                    //     Colors.lightBlueAccent,
-                    //   ],
-                    //   child: SizedBox(
-                    //     width: 300,
-                    //     height: 200,
-                    //     child: Text("Hello"),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
