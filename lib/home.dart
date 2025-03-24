@@ -1,5 +1,6 @@
 import 'package:forui/forui.dart';
 import 'package:flutter/material.dart';
+import 'package:identity/constants/text.dart';
 import 'package:identity/screens/search.dart';
 import 'package:identity/screens/contacts.dart';
 
@@ -36,7 +37,7 @@ class HomeState extends State<Home> {
               FAssets.icons.search,
               color: Theme.of(context).colorScheme.outline,
             ),
-            label: 'Search',
+            label: search,
           ),
           NavigationDestination(
             selectedIcon: FIcon(
@@ -47,7 +48,7 @@ class HomeState extends State<Home> {
               FAssets.icons.personStanding,
               color: Theme.of(context).colorScheme.outline,
             ),
-            label: 'Contacts',
+            label: contacts,
           ),
         ],
       ),

@@ -36,6 +36,30 @@ class ContactListState extends State<ContactList> {
               context: context,
               builder:
                   (context) => FDialog(
+                    style: FDialogStyle(
+                      horizontalStyle: FDialogContentStyle(
+                        titleTextStyle: TextStyle(),
+                        bodyTextStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                        padding: EdgeInsets.all(20.0),
+                        actionPadding: double.minPositive,
+                      ),
+
+                      verticalStyle: FDialogContentStyle(
+                        titleTextStyle: TextStyle(),
+                        bodyTextStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                        padding: EdgeInsets.all(20.0),
+                        actionPadding: double.minPositive,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.onInverseSurface,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+
                     direction: Axis.horizontal,
                     body: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
@@ -43,7 +67,15 @@ class ContactListState extends State<ContactList> {
                     ),
                     actions: [
                       TextButton(
-                        child: Text(cancel),
+                        child: Text(
+                          cancel,
+                          style: TextStyle(
+                            color:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.onSecondaryContainer,
+                          ),
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -131,7 +163,7 @@ class ContactListState extends State<ContactList> {
                         ),
                       ),
                       Text(
-                        sms,
+                        shortMessage,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
