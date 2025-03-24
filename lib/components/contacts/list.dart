@@ -39,13 +39,11 @@ class ContactListState extends State<ContactList> {
                     direction: Axis.horizontal,
                     body: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
-                      child: const Text(
-                        'This action cannot be undone. This will permanently delete the account.',
-                      ),
+                      child: const Text(deleteWarning),
                     ),
                     actions: [
                       TextButton(
-                        child: Text('Cancel'),
+                        child: Text(cancel),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -60,7 +58,7 @@ class ContactListState extends State<ContactList> {
                           Navigator.of(context).pop();
                           UserModel().deleteUser(user.mobile);
                         },
-                        child: Text('Delete'),
+                        child: Text(delete),
                       ),
                     ],
                   ),
@@ -133,7 +131,7 @@ class ContactListState extends State<ContactList> {
                         ),
                       ),
                       Text(
-                        "Message",
+                        sms,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
@@ -155,7 +153,7 @@ class ContactListState extends State<ContactList> {
                         ),
                       ),
                       Text(
-                        "Call",
+                        call,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
@@ -177,7 +175,7 @@ class ContactListState extends State<ContactList> {
                         ),
                       ),
                       Text(
-                        "Whatsapp",
+                        whatsapp,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
