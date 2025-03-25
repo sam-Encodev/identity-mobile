@@ -354,6 +354,7 @@ class _SearchState extends State<Search> {
                       child:
                           isLoading
                               ? CircularProgressIndicator(
+                                strokeWidth: 3.5,
                                 color: Theme.of(context).colorScheme.onPrimary,
                               )
                               : Text(
