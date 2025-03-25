@@ -21,7 +21,7 @@ void bottomsheet(BuildContext context, data, {savedContact = false}) {
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: ListView(
             children: [
-              if (savedContact == true && pref == true)
+              if (pref == true)
                 ListTile(
                   onTap: () {},
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),

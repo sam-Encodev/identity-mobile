@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:identity/schema/user.dart';
 import 'package:signals/signals_flutter.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
@@ -97,11 +98,19 @@ class _SearchState extends State<Search> {
   void writetoDB(data) {
     var saveContact = getIt.get<SaveContact>();
     if (saveContact.state.value == false) {
-      if (mounted) bottomsheet(context, data);
+      var user = User(
+        data[accountNumber],
+        data[accountName],
+        grabInitials(data[accountName]),
+        getbankCode(data[accountNumber]),
+        data[bankId],
+      );
+      if (mounted) bottomsheet(context, user);
+      return;
     }
 
-    var res = UserModel().writeUser(data);
-    if (mounted) bottomsheet(context, res);
+    var user = UserModel().writeUser(data);
+    if (mounted) bottomsheet(context, user);
   }
 
   void showFailedResponse(response) {
@@ -206,7 +215,9 @@ class _SearchState extends State<Search> {
                                 ],
                               ),
                             ),
-                            selected: themer.state.value == themeDecoder(themeDecoder),
+                            selected:
+                                themer.state.value ==
+                                themeDecoder(themeDecoder),
                             onSelected: (bool selected) {
                               chipValue = selected ? entry.key : entry.key;
                               themer.state.value = themeTransformer(
