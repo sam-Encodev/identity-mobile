@@ -1,7 +1,6 @@
 import 'package:realm/realm.dart';
 import 'package:identity/schema/user.dart';
 import 'package:identity/constants/data.dart';
-import 'package:identity/constants/transformer.dart';
 import 'package:identity/constants/text.dart';
 
 class UserModel {
@@ -30,30 +29,16 @@ class UserModel {
     return (user: User, message: false);
   }
 
-  writeUser(info) {
-    var providerName = getbankCode(info[accountNumber]);
-    var initials = grabInitials(info[accountName]);
-
-    final user = User(
-      info[accountNumber],
-      info[accountName],
-      initials,
-      providerName,
-      info[bankId],
-    );
-
+  writeUser(user) {
     realm.write(() {
       realm.add(user);
       realm.refresh();
     });
-
-    return user;
   }
 
-  writeBulk() {
-    var users = dummyData;
+  writeUsers() {
     realm.write(() {
-      realm.addAll(users);
+      realm.addAll(dummyData);
       realm.refresh();
     });
   }
