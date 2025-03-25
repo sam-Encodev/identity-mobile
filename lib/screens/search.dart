@@ -206,7 +206,7 @@ class _SearchState extends State<Search> {
                                 ],
                               ),
                             ),
-                            selected: themer.state.value == entry.key,
+                            selected: themer.state.value == themeDecoder(themeDecoder),
                             onSelected: (bool selected) {
                               chipValue = selected ? entry.key : entry.key;
                               themer.state.value = themeTransformer(
