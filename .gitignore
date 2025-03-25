@@ -47,3 +47,4 @@ trash
 lib/services/dio_client.dart
 lib/constants/transformer.dart
 lib/constants/data.dart
+lib/services/http_client.dart
