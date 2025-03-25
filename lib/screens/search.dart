@@ -1,20 +1,20 @@
-import 'package:forui/forui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:identity/constants/text.dart';
-import 'package:identity/services/getit.dart';
 import 'package:signals/signals_flutter.dart';
-import 'package:identity/services/shared_pref.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
-import 'package:identity/components/border_animate.dart';
 
 import 'package:identity/model/user.dart';
+import 'package:identity/services/getit.dart';
+import 'package:identity/constants/text.dart';
 import 'package:identity/constants/theme.dart';
 import 'package:identity/constants/styles.dart';
 import 'package:identity/services/dio_client.dart';
+import 'package:identity/services/shared_pref.dart';
 import 'package:identity/constants/transformer.dart';
-import 'package:identity/components/modal_sheet.dart';
 import 'package:identity/utils/theme_transformer.dart';
+import 'package:identity/components/border_animate.dart';
+import 'package:identity/components/dialogs/dialog.dart';
+import 'package:identity/components/dialogs/bottom_sheet.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -76,7 +76,7 @@ class _SearchState extends State<Search> {
 
     updateSetState();
     _controller.text = '';
-    if (mounted) bottomsheet(context, user, dbCall: true);
+    if (mounted) bottomsheet(context, user, savedContact: true);
   }
 
   Future getName() async {
@@ -97,35 +97,15 @@ class _SearchState extends State<Search> {
   void writetoDB(data) {
     var saveContact = getIt.get<SaveContact>();
     if (saveContact.state.value == false) {
-      if (mounted) bottomsheet(context, data, dbCall: false);
+      if (mounted) bottomsheet(context, data);
     }
 
     var res = UserModel().writeUser(data);
-    if (mounted) bottomsheet(context, res, dbCall: false);
+    if (mounted) bottomsheet(context, res);
   }
 
   void showFailedResponse(response) {
-    if (mounted) {
-      showAdaptiveDialog<void>(
-        context: context,
-        builder:
-            (context) => FDialog(
-              direction: Axis.horizontal,
-              body: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(response),
-              ),
-              actions: [
-                FilledButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(close),
-                ),
-              ],
-            ),
-      );
-    }
+    if (mounted) dialog(context, response);
   }
 
   @override
@@ -133,7 +113,6 @@ class _SearchState extends State<Search> {
     final themer = getIt.get<Themer>();
     var saveContact = getIt.get<SaveContact>();
     var pref = SharedPref.get();
-    // print({"pref": pref});
     saveContact.state.value = pref;
 
     SliverWoltModalSheetPage page1(BuildContext modalSheetContext) {
@@ -253,6 +232,7 @@ class _SearchState extends State<Search> {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
+              tooltip: settings,
               onPressed: () {
                 WoltModalSheet.show<void>(
                   context: context,
