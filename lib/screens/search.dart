@@ -80,7 +80,7 @@ class _SearchState extends State<Search> {
 
   Future getName() async {
     var code = getbankCode(mobileField);
-    var results = await fetchAlbum(mobileField, code);
+    var results = await getID(mobileField, code);
 
     if (results[status] == false) {
       updateSetState();
