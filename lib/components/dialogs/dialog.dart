@@ -1,6 +1,5 @@
 import 'package:forui/forui.dart';
 import 'package:flutter/material.dart';
-import 'package:identity/constants/styles.dart';
 import 'package:identity/constants/text.dart';
 
 void dialog(BuildContext context, response) {
@@ -21,7 +20,6 @@ void dialog(BuildContext context, response) {
               child: Text(close),
             ),
           ],
-          style: fDialogStyles(context),
         ),
   );
 }
