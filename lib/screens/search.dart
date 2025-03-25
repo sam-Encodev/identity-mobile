@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:identity/schema/user.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:identity/services/http_client.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 import 'package:identity/model/user.dart';
@@ -9,7 +10,6 @@ import 'package:identity/services/getit.dart';
 import 'package:identity/constants/text.dart';
 import 'package:identity/constants/theme.dart';
 import 'package:identity/constants/styles.dart';
-import 'package:identity/services/dio_client.dart';
 import 'package:identity/services/shared_pref.dart';
 import 'package:identity/constants/transformer.dart';
 import 'package:identity/utils/theme_transformer.dart';
@@ -25,7 +25,6 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  final DioClient _client = DioClient();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
 
@@ -81,34 +80,34 @@ class _SearchState extends State<Search> {
 
   Future getName() async {
     var code = getbankCode(mobileField);
-    var results = await _client.getID(mobileField, code);
+    var results = await fetchAlbum(mobileField, code);
 
     if (results[status] == false) {
       updateSetState();
       showFailedResponse(results[message]);
-      return;
+    } else {
+      updateSetState();
+      writetoDB(results[data]);
+      _controller.text = '';
     }
-
-    updateSetState();
-    writetoDB(results[data]);
-    _controller.text = '';
   }
 
   void writetoDB(data) {
+    final user = User(
+      data[accountNumber],
+      data[accountName],
+      grabInitials(data[accountName]),
+      getbankCode(data[accountNumber]),
+      data[bankId],
+    );
+
     var saveContact = getIt.get<SaveContact>();
     if (saveContact.state.value == false) {
-      var user = User(
-        data[accountNumber],
-        data[accountName],
-        grabInitials(data[accountName]),
-        getbankCode(data[accountNumber]),
-        data[bankId],
-      );
       if (mounted) bottomsheet(context, user);
       return;
     }
 
-    var user = UserModel().writeUser(data);
+    UserModel().writeUser(user);
     if (mounted) bottomsheet(context, user);
   }
 
