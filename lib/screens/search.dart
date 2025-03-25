@@ -67,12 +67,11 @@ class _SearchState extends State<Search> {
     }
   }
 
-  void checkAvailability() {
+  checkAvailability() {
     final (user: user, message: message) = UserModel().findUser(mobileField);
 
     if (message == false) {
-      getName();
-      return;
+      return getName();
     }
 
     updateSetState();
