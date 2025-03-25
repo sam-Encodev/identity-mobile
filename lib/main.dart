@@ -7,6 +7,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPref.init();
 
-  setup();
+  initializeSignal();
   runApp(const Application());
 }

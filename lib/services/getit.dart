@@ -12,7 +12,7 @@ class Themer {
 
 final getIt = GetIt.instance;
 
-void setup() async {
+void initializeSignal() async {
   getIt.registerSingleton<SaveContact>(SaveContact());
   getIt.registerSingleton<Themer>(Themer());
 }
