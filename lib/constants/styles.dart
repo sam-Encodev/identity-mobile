@@ -1,3 +1,4 @@
+import 'package:forui/forui.dart';
 import 'package:flutter/material.dart';
 
 const iconsSize = 38.0;
@@ -9,3 +10,24 @@ const icons = [
   Icon(Icons.wb_sunny_outlined, size: iconsSize),
   Icon(Icons.dark_mode_outlined, size: iconsSize),
 ];
+
+fDialogStyles(BuildContext context) {
+  return FDialogStyle(
+    horizontalStyle: FDialogContentStyle(
+      titleTextStyle: TextStyle(),
+      bodyTextStyle: TextStyle(color: Theme.of(context).colorScheme.outline),
+      padding: EdgeInsets.all(20.0),
+      actionPadding: double.minPositive,
+    ),
+    verticalStyle: FDialogContentStyle(
+      titleTextStyle: TextStyle(),
+      bodyTextStyle: TextStyle(color: Theme.of(context).colorScheme.outline),
+      padding: EdgeInsets.all(20.0),
+      actionPadding: double.minPositive,
+    ),
+    decoration: BoxDecoration(
+      color: Theme.of(context).colorScheme.onInverseSurface,
+      borderRadius: BorderRadius.circular(15),
+    ),
+  );
+}

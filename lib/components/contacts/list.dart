@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:identity/model/user.dart';
 import 'package:disclosure/disclosure.dart';
 import 'package:identity/constants/text.dart';
+import 'package:identity/constants/styles.dart';
 import 'package:identity/components/snack_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:identity/constants/transformer.dart';
@@ -36,30 +37,6 @@ class ContactListState extends State<ContactList> {
               context: context,
               builder:
                   (context) => FDialog(
-                    style: FDialogStyle(
-                      horizontalStyle: FDialogContentStyle(
-                        titleTextStyle: TextStyle(),
-                        bodyTextStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.outline,
-                        ),
-                        padding: EdgeInsets.all(20.0),
-                        actionPadding: double.minPositive,
-                      ),
-
-                      verticalStyle: FDialogContentStyle(
-                        titleTextStyle: TextStyle(),
-                        bodyTextStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.outline,
-                        ),
-                        padding: EdgeInsets.all(20.0),
-                        actionPadding: double.minPositive,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onInverseSurface,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-
                     direction: Axis.horizontal,
                     body: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
@@ -93,6 +70,7 @@ class ContactListState extends State<ContactList> {
                         child: Text(delete),
                       ),
                     ],
+                    style: fDialogStyles(context),
                   ),
             );
           },
