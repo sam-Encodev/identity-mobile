@@ -1,6 +1,7 @@
 import 'package:forui/forui.dart';
 import 'package:flutter/material.dart';
 import 'package:identity/constants/text.dart';
+import 'package:identity/constants/styles.dart';
 import 'package:identity/components/snack_bar.dart';
 import 'package:identity/services/shared_pref.dart';
 import 'package:identity/services/url_launcher.dart';
@@ -44,34 +45,7 @@ void bottomsheet(BuildContext context, data, {savedContact = false}) {
                         context: context,
                         builder:
                             (context) => FDialog(
-                              style: FDialogStyle(
-                                horizontalStyle: FDialogContentStyle(
-                                  titleTextStyle: TextStyle(),
-                                  bodyTextStyle: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.outline,
-                                  ),
-                                  padding: EdgeInsets.all(20.0),
-                                  actionPadding: double.minPositive,
-                                ),
-
-                                verticalStyle: FDialogContentStyle(
-                                  titleTextStyle: TextStyle(),
-                                  bodyTextStyle: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.outline,
-                                  ),
-                                  padding: EdgeInsets.all(20.0),
-                                  actionPadding: double.minPositive,
-                                ),
-                                decoration: BoxDecoration(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onInverseSurface,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
+                              style: fDialogStyles(context),
                               direction: Axis.horizontal,
                               body: Padding(
                                 padding: const EdgeInsets.only(bottom: 10.0),

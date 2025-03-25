@@ -17,13 +17,13 @@ fDialogStyles(BuildContext context) {
       titleTextStyle: TextStyle(),
       bodyTextStyle: TextStyle(color: Theme.of(context).colorScheme.outline),
       padding: EdgeInsets.all(20.0),
-      actionPadding: double.minPositive,
+      actionSpacing:  double.minPositive,
     ),
     verticalStyle: FDialogContentStyle(
       titleTextStyle: TextStyle(),
       bodyTextStyle: TextStyle(color: Theme.of(context).colorScheme.outline),
       padding: EdgeInsets.all(20.0),
-      actionPadding: double.minPositive,
+      actionSpacing:  double.minPositive,
     ),
     decoration: BoxDecoration(
       color: Theme.of(context).colorScheme.onInverseSurface,
