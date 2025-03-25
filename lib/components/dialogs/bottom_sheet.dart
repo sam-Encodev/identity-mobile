@@ -5,14 +5,13 @@ import 'package:identity/components/snack_bar.dart';
 import 'package:identity/services/shared_pref.dart';
 import 'package:identity/services/url_launcher.dart';
 
-void bottomsheet(BuildContext context, data, {required bool dbCall}) {
+void bottomsheet(BuildContext context, data, {savedContact = false}) {
   showModalBottomSheet<void>(
     context: context,
     builder: (_) {
       var name = data.name;
       var mobile = data.mobile;
       var pref = SharedPref.get();
-      // print({"pref": pref});
 
       return SizedBox(
         height: 320,
@@ -21,18 +20,19 @@ void bottomsheet(BuildContext context, data, {required bool dbCall}) {
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: ListView(
             children: [
-              ListTile(
-                onTap: () {},
-                contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                minVerticalPadding: 0,
-                trailing: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+              if (savedContact == true && pref == true)
+                ListTile(
+                  onTap: () {},
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  minVerticalPadding: 0,
+                  trailing: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 ),
-              ),
-              if (dbCall == false && pref == false)
+              if (savedContact == false && pref == false)
                 ListTile(
                   onTap: () {},
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -77,23 +77,20 @@ void bottomsheet(BuildContext context, data, {required bool dbCall}) {
                                 padding: const EdgeInsets.only(bottom: 10.0),
                                 child: RichText(
                                   text: TextSpan(
-                                    text: 'Contact is not saved. ',
+                                    text: autoSaveMessage1,
                                     style: TextStyle(
                                       color:
                                           Theme.of(context).colorScheme.outline,
                                     ),
                                     children: const <TextSpan>[
-                                      TextSpan(text: 'Go to '),
+                                      TextSpan(text: autoSaveMessage2),
                                       TextSpan(
-                                        text: 'Settings ',
+                                        text: settings,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      TextSpan(
-                                        text:
-                                            'to enable contact auto-save feature.',
-                                      ),
+                                      TextSpan(text: autoSaveMessage4),
                                     ],
                                   ),
                                 ),
