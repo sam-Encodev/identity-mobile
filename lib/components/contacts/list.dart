@@ -135,8 +135,8 @@ class ContactListState extends State<ContactList> {
                             snackBar(context, message: launchFailed);
                           }
                         },
-                        icon: FIcon(
-                          FAssets.icons.messageSquare,
+                        icon: Icon(
+                          FIcons.messageSquare,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
@@ -157,8 +157,8 @@ class ContactListState extends State<ContactList> {
                             snackBar(context, message: launchFailed);
                           }
                         },
-                        icon: FIcon(
-                          FAssets.icons.phoneCall,
+                        icon: Icon(
+                          FIcons.phoneCall,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
@@ -179,8 +179,8 @@ class ContactListState extends State<ContactList> {
                             snackBar(context, message: launchFailed);
                           }
                         },
-                        icon: FIcon(
-                          FAssets.icons.messageCircleReply,
+                        icon: Icon(
+                          FIcons.messageCircleReply,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),

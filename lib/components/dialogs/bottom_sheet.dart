@@ -89,7 +89,7 @@ void bottomsheet(BuildContext context, data, {savedContact = false}) {
                 ),
               ),
               ListTile(
-                leading: FIcon(FAssets.icons.messageSquare, color: Colors.grey),
+                leading: Icon(FIcons.messageSquare, color: Colors.grey),
                 title: const Text(text),
                 onTap: () async {
                   var result = await sendSms(mobile);
@@ -99,7 +99,7 @@ void bottomsheet(BuildContext context, data, {savedContact = false}) {
                 },
               ),
               ListTile(
-                leading: FIcon(FAssets.icons.phoneCall, color: Colors.grey),
+                leading: Icon(FIcons.phoneCall, color: Colors.grey),
                 title: const Text(call),
                 onTap: () async {
                   var result = await makePhoneCall(mobile);
@@ -109,10 +109,7 @@ void bottomsheet(BuildContext context, data, {savedContact = false}) {
                 },
               ),
               ListTile(
-                leading: FIcon(
-                  FAssets.icons.messageCircleReply,
-                  color: Colors.grey,
-                ),
+                leading: Icon(FIcons.messageCircleReply, color: Colors.grey),
                 title: const Text(whatsapp),
                 onTap: () async {
                   var result = await sendWhatsapp(mobile);

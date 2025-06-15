@@ -29,23 +29,23 @@ class HomeState extends State<Home> {
         selectedIndex: currentPageIndex,
         destinations: <Widget>[
           NavigationDestination(
-            selectedIcon: FIcon(
-              FAssets.icons.search,
+            selectedIcon: Icon(
+              FIcons.search,
               color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
-            icon: FIcon(
-              FAssets.icons.search,
+            icon: Icon(
+              FIcons.search,
               color: Theme.of(context).colorScheme.outline,
             ),
             label: search,
           ),
           NavigationDestination(
-            selectedIcon: FIcon(
-              FAssets.icons.personStanding,
+            selectedIcon: Icon(
+              FIcons.personStanding,
               color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
-            icon: FIcon(
-              FAssets.icons.personStanding,
+            icon: Icon(
+              FIcons.personStanding,
               color: Theme.of(context).colorScheme.outline,
             ),
             label: contacts,
